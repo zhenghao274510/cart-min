@@ -26,7 +26,7 @@ function request(t, e, a) {
 function iget(t, e) {
     return request(t, "GET", e);
 }
-
+// ("Openid", e)
 function ipost(t, e) {
     return request(t, "POST", e);
 }

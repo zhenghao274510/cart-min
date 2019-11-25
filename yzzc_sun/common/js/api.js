@@ -465,19 +465,20 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
             wx.login({
                 success: function (e) {
                     var t = e.code;
-                    // OpenidData({
-                    //     code: t
-                    // }).then(function (e) {
-                    //     (e = JSON.parse(e)).openid ? (o.openid = e.openid, o.session_key = e.session_key,
-                    //         o.code = t, o.login = !1, wx.setStorageSync("userInfo", o), n(o)) : wx.showModal({
-                    //         title: e.errcode + "",
-                    //         content: e.errmsg,
-                    //         showCancel: !1,
-                    //         success: function (e) {
-                    //             e.confirm && getUserInfo();
-                    //         }
-                    //     });
-                    // });
+                    OpenidData({
+                        code: t
+                    }).then(function (e) {
+                        console.log(e)
+                        (e = JSON.parse(e)).openid ? (o.openid = e.openid, o.session_key = e.session_key,
+                            o.code = t, o.login = !1, wx.setStorageSync("userInfo", o), n(o)) : wx.showModal({
+                            title: e.errcode + "",
+                            content: e.errmsg,
+                            showCancel: !1,
+                            success: function (e) {
+                                e.confirm && getUserInfo();
+                            }
+                        });
+                    });
                 }
             });
         });

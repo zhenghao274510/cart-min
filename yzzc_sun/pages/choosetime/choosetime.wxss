@@ -57,6 +57,8 @@
 
 .beginD {
     width: 300rpx;
+    display: flex;
+    flex-direction: column;
     position: relative;
 }
 
@@ -184,16 +186,18 @@ button::after {
     text-align: right;
     position: absolute;
     right: 120rpx;
-    bottom: 0rpx;
+    top: 35rpx;
     font-size: 26rpx;
     color: #999;
 }
 
 .sweek {
-    text-align: left;
     position: absolute;
-    left: 160rpx;
-    bottom: 0rpx;
+    left:120rpx;
+    top: 20rpx;
+    font-size: 26rpx;
+    color: #999;
+    text-align: left;
     font-size: 26rpx;
     color: #999;
 }
@@ -246,14 +250,6 @@ button::after {
     color: #999;
 }
 
-.sweek {
-    text-align: left;
-    position: absolute;
-    left: 160rpx;
-    bottom: 0rpx;
-    font-size: 26rpx;
-    color: #999;
-}
 
 .rightDate {
     margin-left: 60rpx;

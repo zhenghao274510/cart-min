@@ -21,6 +21,12 @@ var app = getApp();
 
 Page(_extends({}, _reload.reload, {
     data: {
+        tab:[
+            {img:'../../resource/images/tab/tab0.png',txt:'旅游出行'},
+            {img:'../../resource/images/tab/tab1.png',txt:'领优惠券'},
+            {img:'../../resource/images/tab/tab2.png',txt:'豪车接送'},
+            {img:'../../resource/images/tab/tab3.png',txt:'购车无忧'},
+        ],
         show: !1,
         login: !0,
         gps: !0,
@@ -58,8 +64,10 @@ Page(_extends({}, _reload.reload, {
         }).then(function (t) {
             console.log("ok"), app.globalData.sunqr = !1;
         }).catch(function (t) {
-            app.globalData.sunqr = !1, console.log("fail");
+            app.globalData.sunqr =!1, console.log("fail");
         });
+        // this.dealWithNav()
+        this.getListData()
     },
     onloadData: function (t) {
         var a = this;
@@ -80,7 +88,7 @@ Page(_extends({}, _reload.reload, {
                 title: t.name
             }), a.loadGPS();
         }).then(function (t) {
-            0 !== t ? a.setData({
+            0 != t ? a.setData({
                 lat: t.latitude,
                 lng: t.longitude
             }) : a.setData({
@@ -104,6 +112,7 @@ Page(_extends({}, _reload.reload, {
             0 != this.data.lat && (e.sort = "distance"), (0, _api.ShouyeData)(e).then(function (t) {
                 1 === a.data.once && a.dealWithNav(t), a.data.once = 0, a.dealList(t.car, e.page);
             }).catch(function (t) {
+                console.log(t)
                 -1 == t.code ? a.tips(t.msg) : a.tips("false");
             });
         }
@@ -116,9 +125,10 @@ Page(_extends({}, _reload.reload, {
             2 == t.currentTarget.dataset.id && this.navTo("../choosetime/choosetime?table=4");
     },
     goClassic: function (t) {
+        //   修改   11/25    shouye tab  部分
         var a = t.currentTarget.dataset.index;
         0 == a && this.navTo("../choosetime/choosetime?table=2"), 1 == a && this.navTo("../couponlist/couponlist"),
-            2 == a && this.qiandaoTap(), 3 == a && this.navTo("../activitylist/activitylist");
+            2 == a && this.navTo("../choosetime/choosetime?table=4"), 3 == a && this.navTo("../middleactive/middleactive");
     },
     qiandaoTap: function (t) {
         var a = this,
@@ -150,22 +160,22 @@ Page(_extends({}, _reload.reload, {
         this.navTo("../choosetime/choosetime?table=1&cid=" + t.currentTarget.dataset.cid);
     },
     dealWithNav: function (a) {
+        console.log(a)
         var e = this,
             t = a.icon;
         this.setData({
             msg: t
         });
-        var o = [{}, {}, {}, {}];
-        null === t.logo_img_one || "" === t.logo_img_one ? o[0].img = "../../resource/images/tab/tab0.png" : o[0].img = this.data.imgLink + t.logo_img_one,
-            null === t.logo_img_two || "" === t.logo_img_two ? o[1].img = "../../resource/images/tab/tab1.png" : o[1].img = this.data.imgLink + t.logo_img_two,
-            null === t.logo_img_three || "" === t.logo_img_three ? o[2].img = "../../resource/images/tab/tab2.png" : o[2].img = this.data.imgLink + t.logo_img_three,
-            null === t.logo_img_four || "" === t.logo_img_four ? o[3].img = "../../resource/images/tab/tab3.png" : o[3].img = this.data.imgLink + t.logo_img_four,
-            null === t.logo_name_one || "" === t.logo_name_one ? o[0].txt = "超值套餐" : o[0].txt = t.logo_name_one,
-            null === t.logo_name_two || "" === t.logo_name_two ? o[1].txt = "领优惠券" : o[1].txt = t.logo_name_two,
-            null === t.logo_name_three || "" === t.logo_name_three ? o[2].txt = "签到积分" : o[2].txt = t.logo_name_three,
-            null === t.logo_name_four || "" === t.logo_name_four ? o[3].txt = "车辆销售" : o[3].txt = t.logo_name_four,
+        // var o = [{}, {}, {}, {}];
+        // null === t.logo_img_one || "" === t.logo_img_one ? o[0].img = "../../resource/images/tab/tab0.png" : o[0].img = this.data.imgLink + t.logo_img_one,
+        //     null === t.logo_img_two || "" === t.logo_img_two ? o[1].img = "../../resource/images/tab/tab1.png" : o[1].img = this.data.imgLink + t.logo_img_two,
+        //     null === t.logo_img_three || "" === t.logo_img_three ? o[2].img = "../../resource/images/tab/tab2.png" : o[2].img = this.data.imgLink + t.logo_img_three,
+        //     null === t.logo_img_four || "" === t.logo_img_four ? o[3].img = "../../resource/images/tab/tab3.png" : o[3].img = this.data.imgLink + t.logo_img_four,
+        //     null === t.logo_name_one || "" === t.logo_name_one ? o[0].txt = "超值套餐" : o[0].txt = t.logo_name_one,
+        //     null === t.logo_name_two || "" === t.logo_name_two ? o[1].txt = "领优惠券" : o[1].txt = t.logo_name_two,
+        //     null === t.logo_name_three || "" === t.logo_name_three ? o[2].txt = "签到积分" : o[2].txt = t.logo_name_three,
+        //     null === t.logo_name_four || "" === t.logo_name_four ? o[3].txt = "车辆销售" : o[3].txt = t.logo_name_four,
             this.setData({
-                tab: o,
                 banner: a.banner
             });
         (0, _api.QrpicData)({

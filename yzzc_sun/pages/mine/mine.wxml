@@ -1,4 +1,4 @@
-<sec-footer chooseNav="3"></sec-footer>
+<sec-footer chooseNav="2"></sec-footer>
 <view class="container">
     <view class="userinfo">
         <image class="userinfo-avatar" src="{{avatar}}"></image>

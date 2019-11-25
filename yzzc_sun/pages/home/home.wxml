@@ -1,5 +1,5 @@
 <sec-footer chooseNav="0"></sec-footer>
-<view class="container" wx:if="{{show}}">
+<view class="container">
     <view class="swiper-container">
         <swiper autoplay="{{true}}" class="swiper_box">
             <swiper-item wx:for="{{banner}}" wx:key="id">

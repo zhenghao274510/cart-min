@@ -1,10 +1,12 @@
-var _extends = Object.assign || function(t) {
-    for (var e = 1; e < arguments.length; e++) {
-        var a = arguments[e];
-        for (var i in a) Object.prototype.hasOwnProperty.call(a, i) && (t[i] = a[i]);
-    }
-    return t;
-}, _reload = require("../../common/js/reload.js"), _api = require("../../common/js/api.js");
+var _extends = Object.assign || function (t) {
+        for (var e = 1; e < arguments.length; e++) {
+            var a = arguments[e];
+            for (var i in a) Object.prototype.hasOwnProperty.call(a, i) && (t[i] = a[i]);
+        }
+        return t;
+    },
+    _reload = require("../../common/js/reload.js"),
+    _api = require("../../common/js/api.js");
 
 function _defineProperty(t, e, a) {
     return e in t ? Object.defineProperty(t, e, {
@@ -19,14 +21,14 @@ var app = getApp();
 
 function getDate(t, e, a) {
     var i = null;
-    return 0 == t ? i = new Date() : 1 == t ? (i = new Date()).setDate(i.getDate() + e) : 2 == t ? i = new Date(1e3 * a) : 3 == t && (i = new Date(1e3 * a)).setDate(i.getDate() + e), 
-    i.getFullYear() + "-" + (9 < i.getMonth() + 1 ? i.getMonth() + 1 : "0" + (i.getMonth() + 1)) + "-" + (9 < i.getDate() ? i.getDate() : "0" + i.getDate());
+    return 0 == t ? i = new Date() : 1 == t ? (i = new Date()).setDate(i.getDate() + e) : 2 == t ? i = new Date(1e3 * a) : 3 == t && (i = new Date(1e3 * a)).setDate(i.getDate() + e),
+        i.getFullYear() + "-" + (9 < i.getMonth() + 1 ? i.getMonth() + 1 : "0" + (i.getMonth() + 1)) + "-" + (9 < i.getDate() ? i.getDate() : "0" + i.getDate());
 }
 
 function getTime(t, e, a) {
     var i = null;
-    return 0 == t ? i = new Date() : 1 == t ? (i = new Date()).setDate(i.getDate() + e) : 2 == t ? i = new Date(1e3 * a) : 3 == t && (i = new Date(1e3 * a)).setDate(i.getDate() + e), 
-    (9 < i.getHours() ? i.getHours() : "0" + i.getHours()) + ":" + (9 < i.getMinutes() ? i.getMinutes() : "0" + i.getMinutes());
+    return 0 == t ? i = new Date() : 1 == t ? (i = new Date()).setDate(i.getDate() + e) : 2 == t ? i = new Date(1e3 * a) : 3 == t && (i = new Date(1e3 * a)).setDate(i.getDate() + e),
+        (9 < i.getHours() ? i.getHours() : "0" + i.getHours()) + ":" + (9 < i.getMinutes() ? i.getMinutes() : "0" + i.getMinutes());
 }
 
 function getTimeStr(t) {
@@ -46,40 +48,65 @@ Page(_extends({}, _reload.reload, {
         cityIndex: 0,
         shops: [],
         shopIndex: 0,
-        startDate: "2016-09-01",
+        startDate: "2019-09-01",
         startTime: "12:01",
-        endDate: "2016-09-01",
+        endDate: "2019-09-01",
         endTime: "12:01",
         minDate: "",
         minTime: "",
-        mealList: [],
+        mealList: [{
+                name: '月套餐',
+                day: '30'
+            },
+            {
+                name: '10日套餐',
+                day: '10'
+            },
+            {
+                name: '周套餐',
+                day: '7'
+            },
+            {
+                name: '5天套餐',
+                day: '5'
+            },
+            {
+                name: '3天套餐',
+                day: '3'
+            },
+            {
+                name: '1天套餐',
+                day: '1'
+            }
+        ],
         chooseNav: 0,
         goHome: 0,
         gettype: 1,
         hidePage: !1
     },
-    onLoad: function(t) {
+    onLoad: function (t) {
         this.setData({
             options: t
         });
     },
-    onloadData: function(t) {
+    onloadData: function (t) {
         var s = this;
-        t.detail.login && this.checkUrl().then(function(t) {
-            if ("2" === s.data.options.table) (0, _api.TaocanData)().then(function(t) {
+        t.detail.login && this.checkUrl().then(function (t) {
+            if ("2" === s.data.options.table)(0, _api.TaocanData)().then(function (t) {
                 t.length < 1 && (s.setData({
                     hidePage: !0
                 }), wx.showModal({
                     content: "暂无套餐！",
                     showCancel: !1,
                     confirmText: "朕知道了",
-                    success: function(t) {
+                    success: function (t) {
                         wx.redirectTo({
                             url: "../home/home"
                         });
                     }
                 }));
-                var e = getDate(0), a = getDate(1, t[0].day - 0);
+                var e = getDate(0),
+                    a = getDate(1, t[0].day - 0);
                 s.setData({
                     chooseDay: t[0].day - 0,
                     mealList: t,
@@ -95,10 +122,12 @@ Page(_extends({}, _reload.reload, {
                     minDate: getDate(1, t[0].day - 0),
                     minTime: getTime(1, t[0].day - 0)
                 });
-            }, function(t) {
+            }, function (t) {
                 console.log("err" + t);
-            }); else {
-                var e = getDate(0), a = getDate(1, 1);
+            });
+            else {
+                var e = getDate(0),
+                    a = getDate(1, 1);
                 s.setData({
                     chooseDay: 1,
                     table: s.data.options.table,
@@ -114,74 +143,76 @@ Page(_extends({}, _reload.reload, {
                     minTime: getTime(1, 1)
                 });
             }
-            if ("5" === s.data.options.table && s.loadGPS().then(function(t) {
-                0 !== t && (s.setData({
-                    lat: t.latitude,
-                    lng: t.longitude
-                }), s.setData({
-                    gps: t,
-                    goHome: 1,
-                    gettype: 2
-                }), s.getNearList());
-            }).catch(function(t) {
-                -1 === t.code ? s.tips(t.msg) : s.tips("false");
-            }), "1" === s.data.options.table) s.setData({
+            if ("5" === s.data.options.table && s.loadGPS().then(function (t) {
+                    0 !== t && (s.setData({
+                        lat: t.latitude,
+                        lng: t.longitude
+                    }), s.setData({
+                        gps: t,
+                        goHome: 1,
+                        gettype: 2
+                    }), s.getNearList());
+                }).catch(function (t) {
+                    -1 === t.code ? s.tips(t.msg) : s.tips("false");
+                }), "1" === s.data.options.table) s.setData({
                 preventCheck: !0
             }), (0, _api.YdcarData)({
                 cid: s.data.options.cid
-            }).then(function(t) {
+            }).then(function (t) {
                 s.setData({
                     msg: t,
-                    shops: [ {
+                    shops: [{
                         shopName: t.shopName
-                    } ],
-                    citys: [ {
+                    }],
+                    citys: [{
                         fullname: t.shopinfo.city_name
-                    } ]
+                    }]
                 });
-            }, function(t) {
+            }, function (t) {
                 console.log("err" + t);
-            }); else if ("6" === s.data.options.table) {
+            });
+            else if ("6" === s.data.options.table) {
                 var i, n = JSON.parse(s.data.options.param);
                 s.setData((_defineProperty(i = {
                     param: n,
                     preventCheck: !0
-                }, "param", JSON.parse(s.data.options.param)), _defineProperty(i, "shops", [ {
+                }, "param", JSON.parse(s.data.options.param)), _defineProperty(i, "shops", [{
                     shopName: n.name
-                } ]), _defineProperty(i, "citys", [ {
+                }]), _defineProperty(i, "citys", [{
                     fullname: n.city
-                } ]), i));
-            } else "2" !== s.data.options.table && "3" !== s.data.options.table && "4" !== s.data.options.table || (0, 
-            _api.AllcityData)().then(function(t) {
+                }]), i));
+            } else "2" !== s.data.options.table && "3" !== s.data.options.table && "4" !== s.data.options.table || (0,
+                _api.AllcityData)().then(function (t) {
                 s.setData({
                     citys: t
                 }), (0, _api.CityshopData)({
                     code: t[0].city
-                }).then(function(t) {
+                }).then(function (t) {
                     s.setData({
                         shops: t
                     });
-                }, function(t) {
+                }, function (t) {
                     console.log("err" + t);
                 });
-            }, function(t) {
+            }, function (t) {
                 console.log("err" + t);
             });
-        }).catch(function(t) {
+        }).catch(function (t) {
             -1 === t.code ? s.tips(t.msg) : s.tips("false");
         });
     },
-    getNearList: function() {
-        var e = this, t = {
-            lat: this.data.lat,
-            lng: this.data.lng
-        };
-        (0, _api.FjshopData)(t).then(function(t) {
+    getNearList: function () {
+        var e = this,
+            t = {
+                lat: this.data.lat,
+                lng: this.data.lng
+            };
+        (0, _api.FjshopData)(t).then(function (t) {
             e.setData({
                 shops: t,
-                citys: [ {
+                citys: [{
                     fullname: "附近"
-                } ]
+                }]
             }), t.length < 1 && (e.setData(_defineProperty({
                 showAdmire: !0
             }, "options.table", "4")), e.onloadData({
@@ -189,31 +220,33 @@ Page(_extends({}, _reload.reload, {
                     login: 1
                 }
             }));
-        }, function(t) {
+        }, function (t) {
             console.log("err" + t);
         });
     },
-    bindPickerCity: function(t) {
+    bindPickerCity: function (t) {
         var e = this;
         this.setData({
             cityIndex: t.detail.value
         }), (0, _api.CityshopData)({
             code: this.data.citys[t.detail.value].city
-        }).then(function(t) {
+        }).then(function (t) {
             e.setData({
                 shops: t
             });
-        }, function(t) {
+        }, function (t) {
             console.log("err" + t);
         });
     },
-    bindPickerChange: function(t) {
+    bindPickerChange: function (t) {
         this.setData({
             shopIndex: t.detail.value
         });
     },
-    bindStartDateChange: function(t) {
-        var e = getTimeStr(t.detail.value + " " + this.data.startTime), a = getTimeStr(this.data.endDate + " " + this.data.endTime), i = null;
+    bindStartDateChange: function (t) {
+        var e = getTimeStr(t.detail.value + " " + this.data.startTime),
+            a = getTimeStr(this.data.endDate + " " + this.data.endTime),
+            i = null;
         a < e + 86400 * this.data.chooseDay ? (this.setData({
             startDate: t.detail.value,
             endDate: getDate(3, this.data.chooseDay, e),
@@ -227,7 +260,7 @@ Page(_extends({}, _reload.reload, {
             startWeek: "周" + "日一二三四五六".charAt(new Date(1e3 * e).getDay())
         });
     },
-    bindStartTimeChange: function(t) {
+    bindStartTimeChange: function (t) {
         var e, a = getTimeStr(this.data.startDate + " " + t.detail.value);
         getTimeStr(this.data.endDate + " " + this.data.endTime);
         this.setData({
@@ -240,46 +273,52 @@ Page(_extends({}, _reload.reload, {
             durationD: e
         });
     },
-    bindEndDateChange: function(t) {
-        var e = getTimeStr(this.data.startDate + " " + this.data.startTime), a = getTimeStr(t.detail.value + " " + this.data.endTime), i = ((a - e) / 86400).toFixed(0);
+    bindEndDateChange: function (t) {
+        var e = getTimeStr(this.data.startDate + " " + this.data.startTime),
+            a = getTimeStr(t.detail.value + " " + this.data.endTime),
+            i = ((a - e) / 86400).toFixed(0);
         this.setData({
             endDate: t.detail.value,
             durationD: i,
             endWeek: "周" + "日一二三四五六".charAt(new Date(1e3 * a).getDay())
         });
     },
-    bindEndTimeChange: function(t) {
-        var e = getTimeStr(this.data.startDate + " " + this.data.startTime), a = ((getTimeStr(this.data.endDate + " " + t.detail.value) - e) / 86400).toFixed(0);
+    bindEndTimeChange: function (t) {
+        var e = getTimeStr(this.data.startDate + " " + this.data.startTime),
+            a = ((getTimeStr(this.data.endDate + " " + t.detail.value) - e) / 86400).toFixed(0);
         this.setData({
             endTime: t.detail.value,
             durationD: a
         });
     },
-    onSendTab: function(t) {
-        var e = this, a = getTimeStr(this.data.startDate + " " + this.data.startTime), i = getTimeStr(this.data.endDate + " " + this.data.endTime), n = {
-            uid: wx.getStorageSync("userInfo").wxInfo.id,
-            start_time: a,
-            end_time: i,
-            day: this.data.durationD,
-            startDate: this.data.startDate,
-            endDate: this.data.endDate,
-            startTime: this.data.startTime,
-            endTime: this.data.endTime,
-            startWeek: this.data.startWeek,
-            endWeek: this.data.endWeek,
-            gettype: this.data.gettype,
-            active: 0
-        };
+    onSendTab: function (t) {
+        var e = this,
+            a = getTimeStr(this.data.startDate + " " + this.data.startTime),
+            i = getTimeStr(this.data.endDate + " " + this.data.endTime),
+            n = {
+                uid: wx.getStorageSync("userInfo").wxInfo.id,
+                start_time: a,
+                end_time: i,
+                day: this.data.durationD,
+                startDate: this.data.startDate,
+                endDate: this.data.endDate,
+                startTime: this.data.startTime,
+                endTime: this.data.endTime,
+                startWeek: this.data.startWeek,
+                endWeek: this.data.endWeek,
+                gettype: this.data.gettype,
+                active: 0
+            };
         if ("1" === this.data.table) {
-            n.type = 1, n.cid = this.data.msg.id, n.shopname = this.data.msg.shopinfo.city_name + "-" + this.data.msg.shopinfo.area_name + "-" + this.data.msg.shopinfo.name, 
-            n.carType = this.data.msg.carType, n.carControl = this.data.msg.carControl;
+            n.type = 1, n.cid = this.data.msg.id, n.shopname = this.data.msg.shopinfo.city_name + "-" + this.data.msg.shopinfo.area_name + "-" + this.data.msg.shopinfo.name,
+                n.carType = this.data.msg.carType, n.carControl = this.data.msg.carControl;
             var s = JSON.stringify(n);
             (0, _api.IsorderData)({
                 cid: this.data.msg.id,
                 uid: wx.getStorageSync("userInfo").wxInfo.id
-            }).then(function(t) {
+            }).then(function (t) {
                 e.navTo("../checkorder/checkorder?param=" + s);
-            }, function(t) {
+            }, function (t) {
                 -1 === t.code ? e.navTo("../orderinfo/orderinfo?oid=" + t.data.oid + "&table=1") : wx.showToast({
                     title: t.msg,
                     icon: "none",
@@ -287,20 +326,22 @@ Page(_extends({}, _reload.reload, {
                 });
             });
         } else {
-            "6" === this.data.table ? n.sid = this.data.param.sid : n.sid = this.data.shops[this.data.shopIndex].id, 
-            n.type = 1, "2" === this.data.table ? (n.type = 2, n.typeid = this.data.mealList[this.data.chooseNav].id, 
-            n.mealMoney = this.data.mealList[this.data.chooseNav].money) : "3" === this.data.table && (n.active = 1), 
-            console.log(n);
+            "6" === this.data.table ? n.sid = this.data.param.sid : n.sid = this.data.shops[this.data.shopIndex].id,
+                n.type = 1, "2" === this.data.table ? (n.type = 2, n.typeid = this.data.mealList[this.data.chooseNav].id,
+                    n.mealMoney = this.data.mealList[this.data.chooseNav].money) : "3" === this.data.table && (n.active = 1),
+                console.log(n);
             var o = JSON.stringify(n);
             this.navTo("../choosecar/choosecar?param=" + o);
         }
     },
-    onNavTab: function(t) {
+    onNavTab: function (t) {
         var e = t.currentTarget.dataset.idx;
         this.setData({
             chooseNav: e
         });
-        var a = this.data.mealList[e].day - 0, i = getDate(0), n = getDate(1, a);
+        var a = this.data.mealList[e].day - 0,
+            i = getDate(0),
+            n = getDate(1, a);
         this.setData({
             chooseDay: a,
             startDate: getDate(0),
@@ -315,22 +356,22 @@ Page(_extends({}, _reload.reload, {
             minTime: getTime(1, a)
         });
     },
-    onCloseMaskTab: function() {
+    onCloseMaskTab: function () {
         this.setData({
             closeMask: !this.data.closeMask
         });
     },
-    closeLocal: function() {
+    closeLocal: function () {
         this.setData({
             gps: !this.data.gps
         }), this.lunchTo("../home/home");
     },
-    getGPS: function(t) {
+    getGPS: function (t) {
         var e = this;
         t.detail.authSetting["scope.userLocation"] ? (this.setData({
             gps: !0,
             showPage: !0
-        }), this.loadGPS().then(function(t) {
+        }), this.loadGPS().then(function (t) {
             e.data.gps && e.setData({
                 lat: t.latitude,
                 lng: t.longitude
@@ -345,34 +386,34 @@ Page(_extends({}, _reload.reload, {
             login: !1
         });
     },
-    loadGPS: function() {
+    loadGPS: function () {
         var i = this;
         if (wx.getStorageSync("gps")) {
             var t = new Date().getTime();
-            return wx.getStorageSync("gps").time - 0 + 72e5 < t ? (0, _api.gps)().then(function(a) {
+            return wx.getStorageSync("gps").time - 0 + 72e5 < t ? (0, _api.gps)().then(function (a) {
                 return 0 === a ? (i.setData({
                     gps: !1
-                }), new Promise(function(t, e) {
+                }), new Promise(function (t, e) {
                     t(0);
                 })) : (i.setData({
                     gps: !0
-                }), a.time = new Date().getTime(), wx.setStorageSync("gps", a), new Promise(function(t, e) {
+                }), a.time = new Date().getTime(), wx.setStorageSync("gps", a), new Promise(function (t, e) {
                     t(a);
                 }));
-            }) : new Promise(function(t, e) {
+            }) : new Promise(function (t, e) {
                 i.setData({
                     gps: !0
                 }), t(wx.getStorageSync("gps"));
             });
         }
-        return (0, _api.gps)().then(function(a) {
+        return (0, _api.gps)().then(function (a) {
             return 0 === a ? (i.setData({
                 gps: !1
-            }), new Promise(function(t, e) {
+            }), new Promise(function (t, e) {
                 t(0);
             })) : (i.setData({
                 gps: !0
-            }), a.time = new Date().getTime(), wx.setStorageSync("gps", a), new Promise(function(t, e) {
+            }), a.time = new Date().getTime(), wx.setStorageSync("gps", a), new Promise(function (t, e) {
                 t(a);
             }));
         });

@@ -1,6 +1,5 @@
 <!--yzzc_sun/pages/middleactive/middleactive.wxml-->
  <view class="goodswrap">
-        <view class="goods-title">车型推荐</view>
         <view class="goodsList">
             <view bindtap="goYuDing" class="goodsItem" data-cid="{{item.id}}" wx:for="{{list.data}}" wx:key="{{index}}">
                 <view class="goodsPic">

@@ -1,5 +1,5 @@
 <view class="container" wx:if="{{!hidePage}}">
-    <scroll-view class="scrollView" scrollX="true" wx:if="{{table==='2'}}">
+    <scroll-view class="scrollView" scrollX="true" wx:if="{{options.table==='2'}}">
         <view class="scrollBox">
             <view class="type-navbar">
                 <view bindtap="onNavTab" class="type-box type-navbar-item {{chooseNav==index?'active':''}}" data-idx="{{index}}" wx:for="{{mealList}}" wx:key="{{index}}">{{item.name+'/'+item.day+'天'}}</view>
@@ -50,10 +50,10 @@
                     <picker bindchange="bindStartDateChange" end="2050-09-01" mode="date" start="{{minStartDate}}" value="{{startDate}}">
                         <view class="leftDate">{{startDate}}</view>
                     </picker>
+                    <view class="sweek">{{startTime}}</view>
                     <picker bindchange="bindStartTimeChange" end="24:00" mode="time" start="00:00" value="{{startTime}}">
-                        <view class="sweek">{{startTime}}</view>
-                    </picker>
                     <view class="dateWs">{{startWeek}}</view>
+                    </picker>
                 </view>
             </view>
             <view class="duration">

@@ -1,4 +1,4 @@
-<sec-footer chooseNav="2"></sec-footer>
+<sec-footer chooseNav="1"></sec-footer>
 <view class="container">
     <view class="statusBox">
         <view bindtap="statusTap" class="status-item {{currentStatus==index?'active':''}}" data-index="{{index}}" wx:for="{{statusType}}" wx:key="{{index}}">{{item}}</view>

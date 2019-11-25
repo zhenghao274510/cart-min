@@ -1,35 +1,32 @@
 // yzzc_sun/pages/middleactive/middleactive.js
-Page({
+var _extends = Object.assign || function(e) {
+  for (var n = 1; n < arguments.length; n++) {
+      var t = arguments[n];
+      for (var a in t) Object.prototype.hasOwnProperty.call(t, a) && (e[a] = t[a]);
+  }
+  return e;
+}, _reload = require("../../common/js/reload.js"), _api = require("../../common/js/api.js"), app = getApp();
 
-  /**
-   * 页面的初始数据
-   */
+Page(_extends({}, _reload.reload, {
   data: {
-
+      show: !1
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onLoad: function(e) {
+    wx.setNavigationBarTitle({
+      title:"购车无忧"
+    })
   },
   goYuDing: function (t) {
     this.navTo("../choosetime/choosetime?table=1&cid=" + t.currentTarget.dataset.cid);
   },
-
-  /**
+  getListData:function(){
+      
+  },
+    /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**
@@ -66,4 +63,5 @@ Page({
   onShareAppMessage: function () {
 
   }
-})
+
+}));

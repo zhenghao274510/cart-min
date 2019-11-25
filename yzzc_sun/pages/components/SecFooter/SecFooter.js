@@ -26,7 +26,7 @@ Component({
               var a = wx.getStorageSync("color");
               if (o.setData({
                   color: a
-              }), wx.getStorageSync("footernav") && 2 != o.data.chooseNav) {
+              }), wx.getStorageSync("footernav") && 3 != o.data.chooseNav) {
                   var n = wx.getStorageSync("footernav");
                   switch (n[0].choose = 0, n[1].choose = 0, n[2].choose = 0, o.data.chooseNav) {
                     case 0:
